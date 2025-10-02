@@ -39,6 +39,16 @@ export default function Header() {
         }`}
       >
         <nav className="pt-32 px-8">
+          <div className="mb-12">
+            <Link
+              to="/reserve"
+              onClick={toggleMenu}
+              className="text-2xl font-light tracking-wider uppercase border border-white/20 rounded-full px-6 py-3 inline-block hover:bg-white hover:text-black transition-colors duration-300"
+            >
+              Reserve a Bay
+            </Link>
+          </div>
+
           {categories.map((category) => (
             <div key={category.name} className="mb-10">
               <Link

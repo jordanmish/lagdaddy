@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Home from './components/Home';
 import MensCollection from './components/MensCollection';
 import ProductDetail from './components/ProductDetail';
+import ReserveBay from './components/ReserveBay';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/collection/women" element={<div className="pt-32 text-center">Women's Collection Coming Soon</div>} />
           <Route path="/collection/kids" element={<div className="pt-32 text-center">Kids' Collection Coming Soon</div>} />
           <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/reserve" element={<ReserveBay />} />
         </Routes>
       </div>
     </Router>

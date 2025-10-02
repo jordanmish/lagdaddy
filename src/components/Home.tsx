@@ -49,12 +49,20 @@ export default function Home() {
           <p className="text-xl md:text-2xl font-light text-neutral-300 mb-12 max-w-2xl tracking-wide">
             Premium golf apparel for those who understand that style is part of the swing
           </p>
-          <Link
-            to="/collection/men"
-            className="px-12 py-4 bg-white text-black uppercase tracking-widest font-light hover:bg-neutral-200 transition-colors duration-300"
-          >
-            Shop Collection
-          </Link>
+          <div className="flex flex-col md:flex-row gap-4">
+            <Link
+              to="/collection/men"
+              className="px-12 py-4 bg-white text-black uppercase tracking-widest font-light hover:bg-neutral-200 transition-colors duration-300"
+            >
+              Shop Collection
+            </Link>
+            <Link
+              to="/reserve"
+              className="px-12 py-4 border border-white/40 text-white uppercase tracking-widest font-light hover:bg-white hover:text-black transition-colors duration-300"
+            >
+              Reserve a Bay
+            </Link>
+          </div>
         </div>
       </section>
 
