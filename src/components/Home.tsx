@@ -104,10 +104,10 @@ export default function Home() {
       <footer className="bg-black py-12 px-6">
         <div className="container mx-auto text-center text-white">
           <h3 className="text-2xl font-light tracking-[0.3em] uppercase mb-4">
-            Lag Daddy
+            Lag Daddy Golf Co
           </h3>
           <p className="text-neutral-500 font-light">
-            © 2025 Lag Daddy Golf Apparel. All rights reserved.
+            © 2025 Lag Daddy Golf Co. All rights reserved.
           </p>
         </div>
       </footer>
