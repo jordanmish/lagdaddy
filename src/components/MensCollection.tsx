@@ -1,8 +1,46 @@
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { getProductsByCategory } from '../data/products';
+import StructuredData from './StructuredData';
+import { SITE_URL, usePageMetadata } from '../hooks/usePageMetadata';
 
 export default function MensCollection() {
   const mensProducts = getProductsByCategory('men');
+
+  usePageMetadata({
+    title: "Men's Golf Collection | Lag Daddy Golf Co",
+    description:
+      'Explore tour-tested golf clubs, accessories, and performance essentials from Lag Daddy Golf Co designed for elite play.',
+    keywords: [
+      "men's golf collection",
+      'premium golf clubs',
+      'golf accessories',
+      'Lag Daddy mens gear',
+    ],
+    canonicalPath: '/collection/men',
+  });
+
+  const breadcrumbStructuredData = useMemo(
+    () => ({
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: SITE_URL,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: "Men's Collection",
+          item: `${SITE_URL}/collection/men`,
+        },
+      ],
+    }),
+    []
+  );
 
   return (
     <div className="min-h-screen bg-neutral-900 text-white pt-32 pb-24 px-6">
@@ -43,6 +81,8 @@ export default function MensCollection() {
           ))}
         </div>
       </div>
+
+      <StructuredData id="mens-breadcrumbs" data={breadcrumbStructuredData} />
     </div>
   );
 }

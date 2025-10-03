@@ -1,6 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { bayLocations } from '../data/bayLocations';
+import StructuredData from './StructuredData';
+import { SITE_URL, usePageMetadata } from '../hooks/usePageMetadata';
 
 type LocationState = {
   address: string;
@@ -18,11 +20,75 @@ export default function ReserveBayResults() {
     }
   }, [navigate, state]);
 
+  const selectedLocation = state
+    ? bayLocations.find((option) => option.id === state.locationId)
+    : undefined;
+
+  const pageTitle = selectedLocation
+    ? `${selectedLocation.city} Golf Bay Results | Lag Daddy Golf Co`
+    : 'Bay Results | Lag Daddy Golf Co';
+
+  const pageDescription = selectedLocation
+    ? `Discover private hitting bays, concierge service, and tech-enabled practice suites available now in ${selectedLocation.city}.`
+    : 'Explore premium Lag Daddy Golf Co lounge bays and technology-driven suites near you.';
+
+  usePageMetadata({
+    title: pageTitle,
+    description: pageDescription,
+    keywords: [
+      'golf bay availability',
+      'Lag Daddy lounge bays',
+      'premium golf experience',
+      selectedLocation?.city ?? 'Lag Daddy Golf Co',
+    ],
+    canonicalPath: '/reserve/results',
+  });
+
+  const locationStructuredData = useMemo(() => {
+    if (!selectedLocation) {
+      return null;
+    }
+
+    const [cityName, region = ''] = selectedLocation.city.split(',').map((part) => part.trim());
+
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'SportsActivityLocation',
+      name: `Lag Daddy Golf Co Lounge — ${selectedLocation.city}`,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: selectedLocation.address,
+        addressLocality: cityName,
+        addressRegion: region,
+        addressCountry: 'US',
+      },
+      url: `${SITE_URL}/reserve`,
+      openingHoursSpecification: {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: [
+          'https://schema.org/Monday',
+          'https://schema.org/Tuesday',
+          'https://schema.org/Wednesday',
+          'https://schema.org/Thursday',
+          'https://schema.org/Friday',
+          'https://schema.org/Saturday',
+          'https://schema.org/Sunday',
+        ],
+        opens: '08:00',
+        closes: '23:00',
+      },
+      amenityFeature: selectedLocation.bayDetails.map((bay) => ({
+        '@type': 'LocationFeatureSpecification',
+        name: bay.id,
+        value: true,
+        description: bay.features.join(', '),
+      })),
+    };
+  }, [selectedLocation]);
+
   if (!state) {
     return null;
   }
-
-  const selectedLocation = bayLocations.find((option) => option.id === state.locationId);
 
   if (!selectedLocation) {
     return (
@@ -95,6 +161,10 @@ export default function ReserveBayResults() {
           </div>
         </section>
       </div>
+
+      {locationStructuredData && (
+        <StructuredData id="lounge-location-schema" data={locationStructuredData} />
+      )}
     </main>
   );
 }

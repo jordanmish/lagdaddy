@@ -1,12 +1,46 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { bayLocations } from '../data/bayLocations';
+import StructuredData from './StructuredData';
+import { usePageMetadata } from '../hooks/usePageMetadata';
 
 export default function ReserveBay() {
   const navigate = useNavigate();
   const [selectedLocation, setSelectedLocation] = useState(bayLocations[0]);
   const [address, setAddress] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+
+  usePageMetadata({
+    title: 'Reserve a Golf Bay | Lag Daddy Golf Co Lounges',
+    description:
+      'Find the closest Lag Daddy Golf Co lounge and book a private technology-driven hitting bay with concierge support in minutes.',
+    keywords: [
+      'reserve golf bay',
+      'indoor golf reservation',
+      'Lag Daddy lounge locations',
+      'golf concierge booking',
+    ],
+    canonicalPath: '/reserve',
+  });
+
+  const serviceStructuredData = useMemo(
+    () => ({
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: 'Lag Daddy Golf Co Bay Reservations',
+      provider: {
+        '@type': 'SportsActivityLocation',
+        name: 'Lag Daddy Golf Co',
+      },
+      areaServed: bayLocations.map((location) => ({
+        '@type': 'City',
+        name: location.city,
+      })),
+      description:
+        'Concierge-supported reservations for climate-controlled hitting bays featuring tour-level technology, premium food and beverage, and tailored service.',
+    }),
+    []
+  );
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -100,6 +134,8 @@ export default function ReserveBay() {
           </form>
         </section>
       </div>
+
+      <StructuredData id="reserve-service-schema" data={serviceStructuredData} />
     </main>
   );
 }
