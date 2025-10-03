@@ -13,7 +13,7 @@ export const products: Product[] = [
     id: 'precision-putter',
     name: 'Precision Putter',
     price: 249.99,
-    image: '/Gemini_Generated_Image_d1hrxcd1hrxcd1hr.png',
+    image: '/Gemini_Generated_Image_9pmrtr9pmrtr9pmr.png',
     category: 'men',
     description: 'Engineered for accuracy and control, the Precision Putter features a matte black finish with optimal weight distribution for consistent putting performance.',
     features: [
@@ -28,7 +28,7 @@ export const products: Product[] = [
     id: 'signature-driver-cover',
     name: 'Signature Driver Cover',
     price: 79.99,
-    image: '/Gemini_Generated_Image_9pmrtr9pmrtr9pmr.png',
+    image: '/Gemini_Generated_Image_d1hrxcd1hrxcd1hr.png',
     category: 'men',
     description: 'Protect your most valuable club with our premium leather driver headcover. Features the iconic Lag Daddy Golf Co logo and superior padding.',
     features: [
