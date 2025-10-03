@@ -49,6 +49,16 @@ export default function Header() {
             </Link>
           </div>
 
+          <div className="mb-12">
+            <Link
+              to="/help"
+              onClick={toggleMenu}
+              className="text-2xl font-light tracking-wider uppercase border border-white/20 rounded-full px-6 py-3 inline-block hover:bg-white hover:text-black transition-colors duration-300"
+            >
+              Help &amp; FAQs
+            </Link>
+          </div>
+
           {categories.map((category) => (
             <div key={category.name} className="mb-10">
               <Link

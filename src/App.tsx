@@ -5,6 +5,7 @@ import MensCollection from './components/MensCollection';
 import ProductDetail from './components/ProductDetail';
 import ReserveBay from './components/ReserveBay';
 import ReserveBayResults from './components/ReserveBayResults';
+import Help from './components/Help';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/reserve" element={<ReserveBay />} />
           <Route path="/reserve/results" element={<ReserveBayResults />} />
+          <Route path="/help" element={<Help />} />
         </Routes>
       </div>
     </Router>
