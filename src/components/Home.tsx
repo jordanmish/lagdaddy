@@ -1,26 +1,78 @@
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import StructuredData from './StructuredData';
+import { usePageMetadata } from '../hooks/usePageMetadata';
+
+const CATEGORIES = [
+  {
+    name: 'Men',
+    items: ['Polos', 'Pants', 'Shorts', 'Outerwear', 'Accessories'],
+    image: '/Gemini_Generated_Image_qv9pviqv9pviqv9p.png',
+    path: '/collection/men',
+  },
+  {
+    name: 'Women',
+    items: ['Polos', 'Skirts', 'Pants', 'Dresses', 'Accessories'],
+    image: '/Gemini_Generated_Image_dq7b9ldq7b9ldq7b.png',
+    path: '/collection/women',
+  },
+  {
+    name: 'Kids',
+    items: ['Tops', 'Bottoms', 'Sets', 'Accessories'],
+    image: '/Gemini_Generated_Image_baz6ilbaz6ilbaz6.png',
+    path: '/collection/kids',
+  },
+];
+
+const FAQ_ITEMS = [
+  {
+    question: 'What makes Lag Daddy Golf Co apparel different?',
+    answer:
+      'Each Lag Daddy Golf Co piece is designed with tour-grade fabrics, tailored athletic fits, and moisture-wicking technology so you can transition from the course to the lounge in elevated comfort.',
+  },
+  {
+    question: 'Can I reserve a golf bay for events or corporate outings?',
+    answer:
+      'Yes. Choose Reserve a Bay to select a lounge in your city, enter your event details, and our concierge team will coordinate premium suites, catering, and on-site hosts for your group.',
+  },
+  {
+    question: 'Do you offer custom fittings or swing analysis?',
+    answer:
+      'Lag Daddy Golf Co lounges feature Toptracer, TrackMan, and on-site fitters who provide data-driven fittings and real-time swing diagnostics with every reservation.',
+  },
+];
 
 export default function Home() {
-  const categories = [
-    {
-      name: 'Men',
-      items: ['Polos', 'Pants', 'Shorts', 'Outerwear', 'Accessories'],
-      image: '/Gemini_Generated_Image_qv9pviqv9pviqv9p.png',
-      path: '/collection/men'
-    },
-    {
-      name: 'Women',
-      items: ['Polos', 'Skirts', 'Pants', 'Dresses', 'Accessories'],
-      image: '/Gemini_Generated_Image_dq7b9ldq7b9ldq7b.png',
-      path: '/collection/women'
-    },
-    {
-      name: 'Kids',
-      items: ['Tops', 'Bottoms', 'Sets', 'Accessories'],
-      image: '/Gemini_Generated_Image_baz6ilbaz6ilbaz6.png',
-      path: '/collection/kids'
-    },
-  ];
+  usePageMetadata({
+    title: 'Lag Daddy Golf Co | Luxury Golf Apparel & Concierge Lounges',
+    description:
+      'Elevate your game with Lag Daddy Golf Co—shop luxury golf apparel and reserve private technology-driven bays with concierge-level service across elite U.S. lounges.',
+    keywords: [
+      'luxury golf apparel',
+      'premium golf clothing',
+      'golf lounge reservations',
+      'indoor golf bays',
+      'golf concierge service',
+      'Lag Daddy Golf Co',
+    ],
+    canonicalPath: '/',
+  });
+
+  const faqStructuredData = useMemo(
+    () => ({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: FAQ_ITEMS.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.answer,
+        },
+      })),
+    }),
+    []
+  );
 
   return (
     <>
@@ -82,7 +134,7 @@ export default function Home() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {categories.map((category) => (
+            {CATEGORIES.map((category) => (
               <Link
                 key={category.name}
                 to={category.path}
@@ -110,6 +162,33 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="py-24 px-6 bg-neutral-950" aria-labelledby="faq-heading">
+        <div className="container mx-auto max-w-5xl space-y-12">
+          <div className="text-center space-y-4">
+            <p className="text-sm uppercase tracking-[0.4em] text-neutral-500">Answer Hub</p>
+            <h2 id="faq-heading" className="text-4xl md:text-5xl font-light uppercase tracking-[0.3em] text-white">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-neutral-400 font-light text-lg md:text-xl">
+              Everything you need to know about our apparel craftsmanship, technology-forward lounges, and white-glove reservations.
+            </p>
+          </div>
+
+          <dl className="grid gap-6 md:grid-cols-2" itemScope itemType="https://schema.org/FAQPage">
+            {FAQ_ITEMS.map((item) => (
+              <div key={item.question} className="rounded-3xl border border-white/10 bg-white/5 p-8" itemProp="mainEntity" itemScope itemType="https://schema.org/Question">
+                <dt className="text-2xl font-light text-white mb-4" itemProp="name">
+                  {item.question}
+                </dt>
+                <dd className="text-neutral-300 font-light leading-relaxed" itemProp="acceptedAnswer" itemScope itemType="https://schema.org/Answer">
+                  <span itemProp="text">{item.answer}</span>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
       <footer className="bg-black py-12 px-6">
         <div className="container mx-auto text-center text-white">
           <h3 className="text-2xl font-light tracking-[0.3em] uppercase mb-4">
@@ -120,6 +199,8 @@ export default function Home() {
           </p>
         </div>
       </footer>
+
+      <StructuredData id="faq-page-schema" data={faqStructuredData} />
     </>
   );
 }

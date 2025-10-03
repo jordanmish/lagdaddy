@@ -1,12 +1,92 @@
+import { useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, ShoppingCart, Check } from 'lucide-react';
 import { getProductById } from '../data/products';
-import { useState } from 'react';
+import StructuredData from './StructuredData';
+import { SITE_URL, usePageMetadata } from '../hooks/usePageMetadata';
 
 export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
   const product = id ? getProductById(id) : undefined;
   const [addedToCart, setAddedToCart] = useState(false);
+
+  const productTitle = product
+    ? `${product.name} | Lag Daddy Golf Co`
+    : 'Product Not Found | Lag Daddy Golf Co';
+
+  const productDescription = product
+    ? product.description
+    : 'Explore premium golf gear, apparel, and accessories from Lag Daddy Golf Co.';
+
+  const canonicalPath = product ? `/product/${product.id}` : '/collection/men';
+
+  usePageMetadata({
+    title: productTitle,
+    description: productDescription,
+    keywords: product
+      ? [
+          product.name,
+          'Lag Daddy Golf Co product',
+          'premium golf gear',
+          ...product.features.slice(0, 2),
+        ]
+      : ['Lag Daddy Golf Co', 'premium golf gear'],
+    canonicalPath,
+    openGraph: {
+      type: 'product',
+      image: product ? `${SITE_URL}${product.image}` : undefined,
+    },
+  });
+
+  const productStructuredData = useMemo(() => {
+    if (!product) {
+      return null;
+    }
+
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: product.name,
+      description: product.description,
+      image: `${SITE_URL}${product.image}`,
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'USD',
+        price: product.price.toFixed(2),
+        availability: 'https://schema.org/InStock',
+        url: `${SITE_URL}/product/${product.id}`,
+      },
+      brand: {
+        '@type': 'Brand',
+        name: 'Lag Daddy Golf Co',
+      },
+    };
+  }, [product]);
+
+  const breadcrumbStructuredData = useMemo(() => ({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: SITE_URL,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: "Men's Collection",
+        item: `${SITE_URL}/collection/men`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: product ? product.name : 'Product',
+        item: product ? `${SITE_URL}/product/${product.id}` : `${SITE_URL}/collection/men`,
+      },
+    ],
+  }), [product]);
 
   if (!product) {
     return (
@@ -104,6 +184,9 @@ export default function ProductDetail() {
           </div>
         </div>
       </div>
+
+      {productStructuredData && <StructuredData id="product-schema" data={productStructuredData} />}
+      <StructuredData id="product-breadcrumbs" data={breadcrumbStructuredData} />
     </div>
   );
 }
