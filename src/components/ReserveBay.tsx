@@ -1,43 +1,30 @@
 import { useState } from 'react';
-
-const bayLocations = [
-  {
-    city: 'Scottsdale, AZ',
-    address: '15200 N Hayden Rd',
-    bays: 18,
-  },
-  {
-    city: 'Austin, TX',
-    address: '3600 Ranch Rd 620 S',
-    bays: 24,
-  },
-  {
-    city: 'Nashville, TN',
-    address: '1200 Broadway Pl',
-    bays: 20,
-  },
-  {
-    city: 'Orlando, FL',
-    address: '4500 International Dr',
-    bays: 16,
-  },
-];
+import { useNavigate } from 'react-router-dom';
+import { bayLocations } from '../data/bayLocations';
 
 export default function ReserveBay() {
+  const navigate = useNavigate();
   const [selectedLocation, setSelectedLocation] = useState(bayLocations[0]);
   const [address, setAddress] = useState('');
-  const [searchMessage, setSearchMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!address.trim()) {
-      setSearchMessage('Please enter an address to find a bay near you.');
+    const trimmedAddress = address.trim();
+
+    if (!trimmedAddress) {
+      setErrorMessage('Please enter an address to find a bay near you.');
       return;
     }
 
-    setSearchMessage(
-      `We’ll show you bays near ${address.trim()} in ${selectedLocation.city}.`
-    );
+    setErrorMessage('');
+
+    navigate('/reserve/results', {
+      state: {
+        address: trimmedAddress,
+        locationId: selectedLocation.id,
+      },
+    });
   };
 
   return (
@@ -62,9 +49,9 @@ export default function ReserveBay() {
               </label>
               <select
                 id="location"
-                value={selectedLocation.city}
+                value={selectedLocation.id}
                 onChange={(event) => {
-                  const location = bayLocations.find((option) => option.city === event.target.value);
+                  const location = bayLocations.find((option) => option.id === event.target.value);
                   if (location) {
                     setSelectedLocation(location);
                   }
@@ -72,7 +59,7 @@ export default function ReserveBay() {
                 className="w-full bg-black/60 border border-neutral-700 rounded-full px-6 py-4 text-lg font-light focus:outline-none focus:ring-2 focus:ring-white/40"
               >
                 {bayLocations.map((location) => (
-                  <option key={location.city} value={location.city}>
+                  <option key={location.id} value={location.id}>
                     {location.city} — {location.bays} bays
                   </option>
                 ))}
@@ -91,9 +78,17 @@ export default function ReserveBay() {
                 type="text"
                 placeholder="Enter your street, city, or zip"
                 value={address}
-                onChange={(event) => setAddress(event.target.value)}
+                onChange={(event) => {
+                  setAddress(event.target.value);
+                  if (errorMessage) {
+                    setErrorMessage('');
+                  }
+                }}
                 className="w-full bg-black/60 border border-neutral-700 rounded-full px-6 py-4 text-lg font-light placeholder:text-neutral-600 focus:outline-none focus:ring-2 focus:ring-white/40"
               />
+              {errorMessage && (
+                <p className="mt-3 text-sm text-red-400 font-light">{errorMessage}</p>
+              )}
             </div>
 
             <button
@@ -103,12 +98,6 @@ export default function ReserveBay() {
               Find Bays Nearby
             </button>
           </form>
-
-          {searchMessage && (
-            <div className="mt-10 rounded-2xl border border-white/10 bg-white/5 px-6 py-5 text-neutral-200 font-light">
-              {searchMessage}
-            </div>
-          )}
         </section>
       </div>
     </main>
