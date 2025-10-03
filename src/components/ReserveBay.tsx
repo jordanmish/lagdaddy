@@ -48,7 +48,7 @@ export default function ReserveBay() {
             Reserve a Bay
           </h1>
           <p className="text-neutral-400 font-light text-lg md:text-xl max-w-2xl mx-auto">
-            Choose your preferred Lag Daddy Lounge location and enter your address to
+            Choose your preferred Lag Daddy Golf Co Lounge location and enter your address to
             find the closest available bay. We&apos;ll match you with premium hitting bays
             outfitted with the latest tech and tailored service.
           </p>

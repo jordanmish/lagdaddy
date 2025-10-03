@@ -26,7 +26,7 @@ export default function Header() {
           </button>
 
           <Link to="/" className="text-3xl md:text-4xl font-light tracking-[0.3em] uppercase hover:text-neutral-300 transition-colors">
-            Lag Daddy
+            Lag Daddy Golf Co
           </Link>
 
           <div className="w-12" />

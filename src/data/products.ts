@@ -30,11 +30,11 @@ export const products: Product[] = [
     price: 79.99,
     image: '/Gemini_Generated_Image_9pmrtr9pmrtr9pmr.png',
     category: 'men',
-    description: 'Protect your most valuable club with our premium leather driver headcover. Features the iconic Lag Daddy logo and superior padding.',
+    description: 'Protect your most valuable club with our premium leather driver headcover. Features the iconic Lag Daddy Golf Co logo and superior padding.',
     features: [
       'Premium synthetic leather construction',
       'Plush interior lining',
-      'Embroidered Lag Daddy logo',
+      'Embroidered Lag Daddy Golf Co logo',
       'Easy on/off magnetic closure',
       'Water-resistant exterior'
     ]
