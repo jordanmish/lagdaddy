@@ -41,11 +41,20 @@ export default function Home() {
         </video>
 
         <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-6">
-          <h2 className="text-5xl md:text-7xl font-light tracking-[0.2em] uppercase mb-6">
-            Perfecting
-            <br />
-            Your Game
-          </h2>
+          <div className="relative inline-block mx-auto mb-6 px-8 py-6">
+            <img
+              src="https://storage.googleapis.com/agent-bench-assets/kt4Q6FhKiP98o2zS7/2f81c8cf-7413-468d-8fa8-0088469cd756.png"
+              alt="Golf ball rolling on green"
+              className="absolute inset-0 h-full w-full object-cover opacity-50 rounded-3xl"
+              aria-hidden="true"
+            />
+            <div className="absolute inset-0 rounded-3xl bg-black/40" aria-hidden="true" />
+            <h2 className="relative text-5xl md:text-7xl font-light tracking-[0.2em] uppercase">
+              Perfecting
+              <br />
+              Your Game
+            </h2>
+          </div>
           <p className="text-xl md:text-2xl font-light text-neutral-300 mb-12 max-w-2xl tracking-wide">
             Premium golf apparel for those who understand that style is part of the swing
           </p>
