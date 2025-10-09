@@ -127,6 +127,12 @@ export default function Home() {
             >
               Reserve a Bay
             </Link>
+            <a
+              href="https://strapi.lagdaddy.com/golf1"
+              className="px-12 py-4 bg-emerald-400 text-black uppercase tracking-widest font-light hover:bg-emerald-300 transition-colors duration-300"
+            >
+              Connect Here
+            </a>
           </div>
         </div>
       </section>
