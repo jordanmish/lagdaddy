@@ -1,13 +1,13 @@
 import { useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, ShoppingCart, Check } from 'lucide-react';
-import { getProductById } from '../data/products';
 import StructuredData from './StructuredData';
 import { SITE_URL, usePageMetadata } from '../hooks/usePageMetadata';
+import { useProductById } from '../hooks/useProducts';
 
 export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
-  const product = id ? getProductById(id) : undefined;
+  const { product, isLoading, error } = useProductById(id);
   const [addedToCart, setAddedToCart] = useState(false);
 
   const productTitle = product
@@ -88,6 +88,19 @@ export default function ProductDetail() {
     ],
   }), [product]);
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-neutral-900 text-white pt-32 pb-24 px-6">
+        <div className="container mx-auto text-center">
+          <h1 className="text-4xl font-light mb-4">Loading product...</h1>
+          <p className="text-neutral-400 font-light">
+            Fetching the latest details from Contentful.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   if (!product) {
     return (
       <div className="min-h-screen bg-neutral-900 text-white pt-32 pb-24 px-6">
@@ -120,6 +133,12 @@ export default function ProductDetail() {
           <ArrowLeft size={20} />
           Back to Men's Collection
         </Link>
+
+        {error && (
+          <div className="mb-8 text-rose-400 font-light">
+            Unable to load live product data from Contentful. Displaying available information.
+          </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           <div className="relative aspect-square bg-neutral-800 overflow-hidden">
