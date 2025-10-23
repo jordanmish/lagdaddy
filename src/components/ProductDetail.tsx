@@ -34,7 +34,7 @@ export default function ProductDetail() {
     canonicalPath,
     openGraph: {
       type: 'product',
-      image: product ? `${SITE_URL}${product.image}` : undefined,
+      image: product ? `${SITE_URL}${product.photo}` : undefined,
     },
   });
 
@@ -48,7 +48,7 @@ export default function ProductDetail() {
       '@type': 'Product',
       name: product.name,
       description: product.description,
-      image: `${SITE_URL}${product.image}`,
+      image: `${SITE_URL}${product.photo}`,
       offers: {
         '@type': 'Offer',
         priceCurrency: 'USD',
@@ -143,7 +143,7 @@ export default function ProductDetail() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           <div className="relative aspect-square bg-neutral-800 overflow-hidden">
             <img
-              src={product.image}
+              src={product.photo}
               alt={product.name}
               className="w-full h-full object-cover"
             />
