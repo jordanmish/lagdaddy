@@ -77,7 +77,7 @@ export default function MensCollection() {
               >
                 <div className="relative overflow-hidden bg-neutral-800 aspect-square mb-4">
                   <img
-                    src={product.image}
+                    src={product.photo}
                     alt={product.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />

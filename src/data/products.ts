@@ -2,7 +2,7 @@ export interface Product {
   id: string;
   name: string;
   price: number;
-  image: string;
+  photo: string;
   category: 'men' | 'women' | 'kids';
   description: string;
   features: string[];
@@ -47,7 +47,7 @@ export const fallbackProducts: Product[] = [
     id: 'precision-putter',
     name: 'Precision Putter',
     price: 249.99,
-    image: '/Gemini_Generated_Image_9pmrtr9pmrtr9pmr.png',
+    photo: '/Gemini_Generated_Image_9pmrtr9pmrtr9pmr.png',
     category: 'men',
     description:
       'Engineered for accuracy and control, the Precision Putter features a matte black finish with optimal weight distribution for consistent putting performance.',
@@ -63,7 +63,7 @@ export const fallbackProducts: Product[] = [
     id: 'signature-driver-cover',
     name: 'Signature Driver Cover',
     price: 79.99,
-    image: '/Gemini_Generated_Image_d1hrxcd1hrxcd1hr.png',
+    photo: '/Gemini_Generated_Image_d1hrxcd1hrxcd1hr.png',
     category: 'men',
     description:
       'Protect your most valuable club with our premium leather driver headcover. Features the iconic Lag Daddy Golf Co logo and superior padding.',
@@ -79,7 +79,7 @@ export const fallbackProducts: Product[] = [
     id: 'tour-stand-bag',
     name: 'Tour Stand Bag',
     price: 399.99,
-    image: '/Gemini_Generated_Image_wsy8wjwsy8wjwsy8.png',
+    photo: '/Gemini_Generated_Image_wsy8wjwsy8wjwsy8.png',
     category: 'men',
     description:
       'The ultimate golf bag for serious players. Lightweight yet durable with 14-way top divider and premium organizational features.',
@@ -352,6 +352,7 @@ const mapEntryToProduct = (
     : 'Explore premium golf gear, apparel, and accessories from Lag Daddy Golf Co.';
 
   const imageField =
+    fields.photo ??
     fields.image ??
     fields.heroImage ??
     fields.mainImage ??
@@ -359,7 +360,7 @@ const mapEntryToProduct = (
     fields.featuredImage ??
     fields.gallery;
 
-  const resolvedImage = resolveImageUrl(imageField, assetMap) ?? fallbackProducts[0]?.image;
+  const resolvedPhoto = resolveImageUrl(imageField, assetMap) ?? fallbackProducts[0]?.photo;
 
   const featuresField =
     fields.features ??
@@ -379,7 +380,7 @@ const mapEntryToProduct = (
     id: slug,
     name,
     price,
-    image: resolvedImage,
+    photo: resolvedPhoto,
     category,
     description,
     features,
