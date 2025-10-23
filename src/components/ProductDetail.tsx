@@ -2,13 +2,32 @@ import { useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, ShoppingCart, Check } from 'lucide-react';
 import StructuredData from './StructuredData';
-import { SITE_URL, usePageMetadata } from '../hooks/usePageMetadata';
+import { SITE_URL, DEFAULT_SOCIAL_IMAGE, usePageMetadata } from '../hooks/usePageMetadata';
 import { useProductById } from '../hooks/useProducts';
 
 export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
   const { product, isLoading, error } = useProductById(id);
   const [addedToCart, setAddedToCart] = useState(false);
+
+  const resolveProductImageUrl = (photo?: string): string | undefined => {
+    if (!photo) {
+      return undefined;
+    }
+
+    if (/^https?:\/\//i.test(photo)) {
+      return photo;
+    }
+
+    if (photo.startsWith('//')) {
+      return `https:${photo}`;
+    }
+
+    const normalisedPath = photo.startsWith('/') ? photo : `/${photo}`;
+    return `${SITE_URL}${normalisedPath}`;
+  };
+
+  const productImageUrl = resolveProductImageUrl(product?.photo);
 
   const productTitle = product
     ? `${product.name} | Lag Daddy Golf Co`
@@ -34,7 +53,7 @@ export default function ProductDetail() {
     canonicalPath,
     openGraph: {
       type: 'product',
-      image: product ? `${SITE_URL}${product.photo}` : undefined,
+      image: productImageUrl,
     },
   });
 
@@ -48,7 +67,7 @@ export default function ProductDetail() {
       '@type': 'Product',
       name: product.name,
       description: product.description,
-      image: `${SITE_URL}${product.photo}`,
+      image: productImageUrl ?? DEFAULT_SOCIAL_IMAGE,
       offers: {
         '@type': 'Offer',
         priceCurrency: 'USD',
@@ -61,7 +80,7 @@ export default function ProductDetail() {
         name: 'Lag Daddy Golf Co',
       },
     };
-  }, [product]);
+  }, [product, productImageUrl]);
 
   const breadcrumbStructuredData = useMemo(() => ({
     '@context': 'https://schema.org',
