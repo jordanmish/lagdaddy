@@ -91,6 +91,22 @@ export const fallbackProducts: Product[] = [
       'Premium waterproof fabric',
     ],
   },
+  {
+    id: 'lag-daddy-divot-fixer',
+    name: 'Lag Daddy Divot Fixer',
+    price: 34.99,
+    image: '/Gemini_Generated_Image_baz6ilbaz6ilbaz6.png',
+    category: 'kids',
+    description:
+      'Compact and ergonomic, the Lag Daddy Divot Fixer helps junior players repair greens with ease while showcasing the signature monogram.',
+    features: [
+      'Lightweight aircraft-grade aluminum construction',
+      'Dual-prong design for effortless divot repair',
+      'Integrated magnetic ball marker with Lag Daddy crest',
+      'Soft-touch grip sized for junior golfers',
+      'Course-approved accessory for growing players',
+    ],
+  },
 ];
 
 let cachedProducts: Product[] | null = null;

@@ -10,6 +10,15 @@ export default function ProductDetail() {
   const { product, isLoading, error } = useProductById(id);
   const [addedToCart, setAddedToCart] = useState(false);
 
+  const category = product?.category ?? 'men';
+  const categoryNameMap: Record<'men' | 'women' | 'kids', string> = {
+    men: "Men's",
+    women: "Women's",
+    kids: "Kids'",
+  };
+  const categoryName = categoryNameMap[category];
+  const categoryPath = `/collection/${category}`;
+
   const productTitle = product
     ? `${product.name} | Lag Daddy Golf Co`
     : 'Product Not Found | Lag Daddy Golf Co';
@@ -63,30 +72,33 @@ export default function ProductDetail() {
     };
   }, [product]);
 
-  const breadcrumbStructuredData = useMemo(() => ({
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: SITE_URL,
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: "Men's Collection",
-        item: `${SITE_URL}/collection/men`,
-      },
-      {
-        '@type': 'ListItem',
-        position: 3,
-        name: product ? product.name : 'Product',
-        item: product ? `${SITE_URL}/product/${product.id}` : `${SITE_URL}/collection/men`,
-      },
-    ],
-  }), [product]);
+  const breadcrumbStructuredData = useMemo(
+    () => ({
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: SITE_URL,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: `${categoryName} Collection`,
+          item: `${SITE_URL}${categoryPath}`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: product ? product.name : 'Product',
+          item: product ? `${SITE_URL}/product/${product.id}` : `${SITE_URL}${categoryPath}`,
+        },
+      ],
+    }),
+    [categoryName, categoryPath, product]
+  );
 
   if (isLoading) {
     return (
@@ -107,7 +119,7 @@ export default function ProductDetail() {
         <div className="container mx-auto text-center">
           <h1 className="text-4xl font-light mb-8">Product Not Found</h1>
           <Link
-            to="/collection/men"
+            to={categoryPath}
             className="inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors"
           >
             <ArrowLeft size={20} />
@@ -127,11 +139,11 @@ export default function ProductDetail() {
     <div className="min-h-screen bg-neutral-900 text-white pt-32 pb-24 px-6">
       <div className="container mx-auto">
         <Link
-          to="/collection/men"
+          to={categoryPath}
           className="inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors mb-12 font-light"
         >
           <ArrowLeft size={20} />
-          Back to Men's Collection
+          Back to {categoryName} Collection
         </Link>
 
         {error && (
